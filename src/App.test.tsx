@@ -20,7 +20,7 @@ describe('Todo application', () => {
   it('add a todo to list', () => {
     render(<Todo />)
 
-    const input = screen.getByTestId('todo-input')
+    const input = screen.getByTestId('textbox')
     userEvent.type(input, 'buy some milk')
     userEvent.type(input, '{enter}')
 
