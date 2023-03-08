@@ -1,17 +1,13 @@
-import React from 'react'
-
-interface Todo {
-  todo: String,
-  id: String | null
-}
+import { useEffect } from 'react'
+import { ITodo, ITodoList } from '../Interfaces'
 
 interface TodoListProps {
-  todosArr: Todo[]
+  todoList?: ITodo[]
 }
 
-function TodoList({todosArr}: TodoListProps) {
+function TodoList({ todoList }: TodoListProps ) {
 
-  if (!todosArr?.length) {
+  if (!todoList?.length) {
     return(<div>
       <h2>No Todos found</h2>
     </div>)
@@ -21,14 +17,12 @@ function TodoList({todosArr}: TodoListProps) {
     <div>
       <h2>Todo List</h2>
       <ul>
-        {todosArr.map((t) => {
-          const tItem: Todo = {
-            todo: t.todo,
-            id: t.id!
-          }
+        {todoList.map((t: ITodo, key: number) => {
+          const { todoName, id } = {...t}
           return(
-            <li key={tItem.id}>
-              {tItem.todo}
+            <li key={key}
+              data-testid={id}>
+              {todoName}
             </li>
           )
         })}

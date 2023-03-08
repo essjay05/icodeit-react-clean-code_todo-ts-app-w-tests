@@ -1,19 +1,51 @@
-import React from 'react';
+import { FC, useState, ChangeEvent, KeyboardEvent } from 'react';
+import { ITodo } from './Interfaces';
 import './App.css';
 import Todo from './components/Todo';
+import TodoList from './components/TodoList';
 
-function App() {
+import { v4 as uuid } from 'uuid';
 
-  let todos: String[]
-  todos = []
+const App: FC = () => {
+
+  const [todoString, setTodoString] = useState<string>('')
+  const [todoList, setTodoList] = useState<ITodo[]>([])
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const { target } = event
+    if (target) {
+      setTodoString(target.value)
+    }
+  }
+
+  const handleKeydown = (event: KeyboardEvent<HTMLElement>): void => {
+    if (event.key === 'Enter') {
+      const id = uuid()
+      const newTodo = { todoName: todoString, id: id }
+      setTodoList([...todoList, newTodo])
+      setTodoString('')
+    }
+  }
 
   return (
     <div className="App">
-      <h1>My Todo Application</h1>
-      <button type="submit">
+      <header>
+        <h1>My Todo Application</h1>
+        <input
+          type='text' 
+          placeholder='Task...' 
+          name='todo' 
+          data-testid='todo-input'
+          id='todoInput'
+          value={todoString}
+          onChange={handleChange} 
+          onKeyDown={handleKeydown}/>
+      </header>
+      {/* <button type="submit">
         Submit
-      </button>
-      <Todo todos={todos}/>
+      </button> */}
+      {/* <Todo/> */}
+      <TodoList todoList={todoList}/>
     </div>
   );
 }
